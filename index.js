@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-var map = new L.Map("map", {center: [46.53, -6.62], zoom: 9})
-    .addLayer(new L.TileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"));
-=======
+// est ce que git va marcher
 var map = new L.map("map", {center: [46.52, 6.60], zoom: 14});
 var cartodb = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
@@ -10,7 +7,6 @@ cartodb.addTo(map);
 
 // // couche des hectares qui marchent avec svgoverlay, mais sont initialisés en polygon > pas trop de latence
 // !!! ne marche qu'en d3v3
->>>>>>> Stashed changes
 
 var hect = [];
 var hectOverlay = L.d3SvgOverlay(function(sel, proj) {
@@ -25,20 +21,9 @@ var hectOverlay = L.d3SvgOverlay(function(sel, proj) {
 
 L.control.layers({"Geo Tiles": cartodb}, {"hect": hectOverlay}).addTo(map);
 
-<<<<<<< Updated upstream
-  var transform = d3.geoTransform({point: projectPoint}),
-    path = d3.geo.projection(transform);
-=======
 d3.json("data/hectpop_xy3.geojson", function(data) {
-	 pts = data.features; hectOverlay.addTo(map) });
->>>>>>> Stashed changes
-
+	 pts = data.features; hectOverlay.addTo(map) })
 // //////////////////////////////////
-
-<<<<<<< Updated upstream
-
-});
-=======
 //// ici je teste l'affichage d'une couche de polygon avec svgoverlay > marche
 //
 // var countries = [];
@@ -124,4 +109,3 @@ d3.json("data/hectpop_xy3.geojson", function(data) {
 //  })
 
  // //////////////////////////////////
->>>>>>> Stashed changes
