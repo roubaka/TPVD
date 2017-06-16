@@ -22,7 +22,7 @@ var hectOverlay = L.d3SvgOverlay(function(sel, proj) {
 // pour le selecteur de couches
 L.control.layers({"Carte light": cartodb}, {"Population par hectares ": hectOverlay}).addTo(map);
 
-d3.json("data/hectpop_xy.geojson", function(data) {
+d3.json("data/hectpop_xy4.geojson", function(data) {
 	 pts = data.features;
 	 hectOverlay.addTo(map)
 });
@@ -46,7 +46,7 @@ d3.json("data/hectpop_xy.geojson", function(data) {
  ;})
 
  var heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
- d3.json("data/hectpop_xy.geojson", function(data) {
+ d3.json("data/hectpop_xy4.geojson", function(data) {
 		heathect[0] = data.features.map(item => item.geometry.coordinates[0]);
 		heathect[1] = data.features.map(item => item.geometry.coordinates[1]);
 		heathect[2] = data.features.map(item => item.properties.B14BTOT);
