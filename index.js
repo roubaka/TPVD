@@ -13,17 +13,19 @@ var hect = [];
 var hectOverlay = L.d3SvgOverlay(function(sel, proj) {
 
 	var upd = sel.selectAll('path').data(pts);
-	console.log(hect);
 	upd.enter()
 		.append('path')
 		.attr('d', proj.pathFromGeojson)
 		.attr('fill', 'green' )
 });
 
-L.control.layers({"Geo Tiles": cartodb}, {"hect": hectOverlay}).addTo(map);
+// pour le selecteur de couches
+L.control.layers({"Carte light": cartodb}, {"Population par hectares ": hectOverlay}).addTo(map);
 
-d3.json("data/hectpop_xy3.geojson", function(data) {
-	 pts = data.features; hectOverlay.addTo(map) })
+d3.json("data/hectpop_xy.geojson", function(data) {
+	 pts = data.features;
+	 hectOverlay.addTo(map)
+});
 
  // // couche des pts qui marchent avec svgoverlay, mais sont initialisés en polygon > pas trop de latence
  // !!! ne marche qu'en d3v3
@@ -39,7 +41,22 @@ d3.json("data/hectpop_xy3.geojson", function(data) {
  });
 
  d3.json("data/pts_wgs3.geojson", function(data) {
- 	 pts = data.features;ptsOverlay.addTo(map) })
+ 	 pts = data.features;
+	 ptsOverlay.addTo(map)
+ ;})
+
+ var heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
+ d3.json("data/hectpop_xy.geojson", function(data) {
+		heathect[0] = data.features.map(item => item.geometry.coordinates[0]);
+		heathect[1] = data.features.map(item => item.geometry.coordinates[1]);
+		heathect[2] = data.features.map(item => item.properties.B14BTOT);
+			console.log(heathect);
+ })
+
+ var heatmap = L.heatLayer([
+ 	[46.52, 6.60, 100], // lat, lng, intensity
+ 	[46.51, 6.62, 30],
+], {radius: 10}).addTo(map);
 
 // //////////////////////////////////
 //// ici je teste l'affichage d'une couche de polygon avec svgoverlay > marche
