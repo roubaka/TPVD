@@ -1,3 +1,4 @@
+
 // est ce que git va marcher
 var map = new L.map("map", {center: [46.52, 6.60], zoom: 14});
 var cartodb = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
