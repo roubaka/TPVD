@@ -24,6 +24,23 @@ L.control.layers({"Geo Tiles": cartodb}, {"hect": hectOverlay}).addTo(map);
 
 d3.json("data/hectpop_xy3.geojson", function(data) {
 	 pts = data.features; hectOverlay.addTo(map) })
+
+ // // couche des pts qui marchent avec svgoverlay, mais sont initialisés en polygon > pas trop de latence
+ // !!! ne marche qu'en d3v3
+
+ var pts = [];
+ var ptsOverlay = L.d3SvgOverlay(function(sel, proj) {
+
+ 	var upd = sel.selectAll('path').data(pts);
+ 	upd.enter()
+ 		.append('path')
+ 		.attr('d', proj.pathFromGeojson)
+ 		.attr('fill', 'red' )
+ });
+
+ d3.json("data/pts_wgs3.geojson", function(data) {
+ 	 pts = data.features;ptsOverlay.addTo(map) })
+
 // //////////////////////////////////
 //// ici je teste l'affichage d'une couche de polygon avec svgoverlay > marche
 //
