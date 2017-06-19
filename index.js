@@ -6,7 +6,7 @@ var cartodb = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/li
 });
 cartodb.addTo(map);
 
-// // couche des hectares qui marchent avec svgoverlay, mais sont initialisés en polygon > pas trop de latence
+// couche des hectares qui marchent avec svgoverlay, mais sont initialisés en polygon > pas trop de latence
 // !!! ne marche qu'en d3v3
 
 var hect = [];
@@ -14,13 +14,13 @@ var hectOverlay = L.d3SvgOverlay(function(sel, proj) {
 
 	var upd = sel.selectAll('path').data(pts);
 	upd.enter()
-		.append('path')
+		.append('circle')
 		.attr('d', proj.pathFromGeojson)
-		.attr('fill', 'green' )
+		.attr('fill', 'green')
 });
 
 // pour le selecteur de couches
-L.control.layers({"Carte light": cartodb}, {"Population par hectares ": hectOverlay}).addTo(map);
+	L.control.layers({"Carte light": cartodb}, {"Population par hectares ": hectOverlay}).addTo(map);
 
 d3.json("data/hectpop_xy4.geojson", function(data) {
 	 pts = data.features;
@@ -30,38 +30,73 @@ d3.json("data/hectpop_xy4.geojson", function(data) {
  // // couche des pts qui marchent avec svgoverlay, mais sont initialisés en polygon > pas trop de latence
  // !!! ne marche qu'en d3v3
 
- var pts = [];
- var ptsOverlay = L.d3SvgOverlay(function(sel, proj) {
+ // var pts = [];
+ // var ptsOverlay = L.d3SvgOverlay(function(sel, proj) {
+ //
+ // 	var upd = sel.selectAll('path').data(pts);
+ // 	upd.enter()
+ // 		.append('path')
+ // 		.attr('d', proj.pathFromGeojson)
+ // 		.attr('fill', 'red')
+ // 	.attr()
+ //  });
+ //
+ // d3.json("data/pts_wgs3.geojson", function(data) {
+ // 	 pts = data.features;
+ // 	 ptsOverlay.addTo(map)
+ // ;})
 
- 	var upd = sel.selectAll('path').data(pts);
- 	upd.enter()
- 		.append('path')
- 		.attr('d', proj.pathFromGeojson)
- 		.attr('fill', 'red' )
- });
+	let ptStops = [];
 
- d3.json("data/pts_wgs3.geojson", function(data) {
- 	 pts = data.features;
-	 ptsOverlay.addTo(map)
- ;})
+		let ptsOverlay = L.d3SvgOverlay(function(sel,proj){
+			var ptsUpd = sel.selectAll('circle').data(ptStops);
+			ptsUpd.enter()
+						.append("circle")
+						.attr('cx', function(d){return proj.latLngToLayerPoint(d.latLng).x;})
+    				.attr('cy', function(d){return proj.latLngToLayerPoint(d.latLng).y;})
+						.attr('r', function(d){
+							return d.Altitude/100;
+						})
+						.attr('fill', 'red');
 
- let heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
+		});
 
- d3.json("data/hectpop_xy4.geojson", function(data) {
-	 	for(i = 0; i < data.features.length ; i++){
-			heathect.push([]);
-			heathect[i][0] = data.features[i].geometry.coordinates[1];
-			heathect[i][1] = data.features[i].geometry.coordinates[0];
-			heathect[i][2] = data.features[i].properties.B14BTOT;
-		}
+		d3.csv("data/pts_wgs4.csv",function(data){
+	  ptStops = data.map(function(d){
+	    d.latLng = [+d.Y,+d.X];
+	    d.Altitude = (d.Altitude == '') ? 50 : +d.Altitude; //NAs
+	    return d;
+	  });
+	  ptsOverlay.addTo(map);
+		});
 
-		console.log(heathect);
-		let heatmap = L.heatLayer(heathect, {radius: 10}).addTo(map);
-		console.log("before");
-			// heathect[0] = data.features.map(item => item.geometry.coordinates[0]);
-			// heathect[1] = data.features.map(item => item.geometry.coordinates[1]);
-			// heathect[2] = data.features.map(item => item.properties.B14BTOT);
-			// console.log(heathect);
+	/// EXample
+	var citiesOverlay = L.d3SvgOverlay(function(sel,proj){
+
+  var minLogPop = Math.log2(d3.min(cities,function(d){return d.population;}));
+  var citiesUpd = sel.selectAll('circle').data(cities);
+  citiesUpd.enter()
+    .append('circle')
+    .attr('r',function(d){return Math.log2(d.population) - minLogPop + 2;})
+    .attr('cx',function(d){return proj.latLngToLayerPoint(d.latLng).x;})
+    .attr('cy',function(d){return proj.latLngToLayerPoint(d.latLng).y;})
+    .attr('stroke','black')
+    .attr('stroke-width',1)
+    .attr('fill',function(d){return (d.place == 'city') ? "red" : "blue";});
+});
+///
+
+let heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
+
+d3.json("data/hectpop_xy4.geojson", function(data) {
+ 	for(i = 0; i < data.features.length ; i++){
+		heathect.push([]);
+		heathect[i][0] = data.features[i].geometry.coordinates[1];
+		heathect[i][1] = data.features[i].geometry.coordinates[0];
+		heathect[i][2] = data.features[i].properties.B14BTOT;
+	}
+
+	let heatmap = L.heatLayer(heathect, {radius: 30, max:65}).addTo(map);
  })
 
 
