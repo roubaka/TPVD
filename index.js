@@ -45,18 +45,30 @@ d3.json("data/hectpop_xy4.geojson", function(data) {
 	 ptsOverlay.addTo(map)
  ;})
 
- var heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
+ let heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
+
  d3.json("data/hectpop_xy4.geojson", function(data) {
-		heathect[0] = data.features.map(item => item.geometry.coordinates[0]);
-		heathect[1] = data.features.map(item => item.geometry.coordinates[1]);
-		heathect[2] = data.features.map(item => item.properties.B14BTOT);
-			console.log(heathect);
+	 	for(i = 0; i < data.features.length ; i++){
+			heathect.push([]);
+			heathect[i][0] = data.features[i].geometry.coordinates[1];
+			heathect[i][1] = data.features[i].geometry.coordinates[0];
+			heathect[i][2] = data.features[i].properties.B14BTOT;
+		}
+
+		console.log(heathect);
+		let heatmap = L.heatLayer(heathect, {radius: 10}).addTo(map);
+		console.log("before");
+			// heathect[0] = data.features.map(item => item.geometry.coordinates[0]);
+			// heathect[1] = data.features.map(item => item.geometry.coordinates[1]);
+			// heathect[2] = data.features.map(item => item.properties.B14BTOT);
+			// console.log(heathect);
  })
 
- var heatmap = L.heatLayer([
- 	[46.52, 6.60, 100], // lat, lng, intensity
- 	[46.51, 6.62, 30],
-], {radius: 10}).addTo(map);
+
+//  var heatmap = L.heatLayer([
+//  	[46.52, 6.60, 100], // lat, lng, intensity
+//  	[46.51, 6.62, 30],
+// ], {radius: 10}).addTo(map);
 
 // //////////////////////////////////
 //// ici je teste l'affichage d'une couche de polygon avec svgoverlay > marche
