@@ -55,16 +55,15 @@ d3.json("data/hectpop_xy4.geojson", function(data) {
 						.attr('cx', function(d){return proj.latLngToLayerPoint(d.latLng).x;})
     				.attr('cy', function(d){return proj.latLngToLayerPoint(d.latLng).y;})
 						.attr('r', function(d){
-							return d.Altitude/100;
+							return d.ALTITUDE/100;
 						})
 						.attr('fill', 'red');
-
 		});
 
-		d3.csv("data/pts_wgs4.csv",function(data){
+		d3.csv("data/pts_buff.csv",function(data){
 	  ptStops = data.map(function(d){
 	    d.latLng = [+d.Y,+d.X];
-	    d.Altitude = (d.Altitude == '') ? 50 : +d.Altitude; //NAs
+	    d.ALTITUDE = (d.ALTITUDE == '') ? 50 : +d.ALTITUDE; //NAs
 	    return d;
 	  });
 	  ptsOverlay.addTo(map);
