@@ -47,6 +47,9 @@ d3.json("data/hectpop_xy4.geojson", function(data) {
  // ;})
 
 	let ptStops = [];
+	let smallBuff = [];
+	let midBuff = [];
+	let bigBuff = [];
 
 		let ptsOverlay = L.d3SvgOverlay(function(sel,proj){
 			var ptsUpd = sel.selectAll('circle').data(ptStops);
@@ -55,19 +58,26 @@ d3.json("data/hectpop_xy4.geojson", function(data) {
 						.attr('cx', function(d){return proj.latLngToLayerPoint(d.latLng).x;})
     				.attr('cy', function(d){return proj.latLngToLayerPoint(d.latLng).y;})
 						.attr('r', function(d){
-							return d.ALTITUDE/100;
+							return 15;
 						})
-						.attr('fill', 'red');
-		});
+						.attr('fill', 'red')
+						.attr('class', function(d){
+							return d.MOYEN_TRAN;
+						});
+			});
 
 		d3.csv("data/pts_buff.csv",function(data){
 	  ptStops = data.map(function(d){
 	    d.latLng = [+d.Y,+d.X];
-	    d.ALTITUDE = (d.ALTITUDE == '') ? 50 : +d.ALTITUDE; //NAs
+	    // d.ALTITUDE = (d.ALTITUDE == '') ? 50 : +d.ALTITUDE; //NAs
 	    return d;
 	  });
 	  ptsOverlay.addTo(map);
+		console.log(data);
 		});
+
+
+		d3.selectAll('circle')
 
 	/// EXample
 	var citiesOverlay = L.d3SvgOverlay(function(sel,proj){
@@ -87,12 +97,12 @@ d3.json("data/hectpop_xy4.geojson", function(data) {
 
 let heathect = []; // on doit créer un talbeau d'objets ave lat long b14btot depuis le geojson
 
-d3.json("data/hectpop_xy4.geojson", function(data) {
- 	for(i = 0; i < data.features.length ; i++){
+d3.csv("data/hectpop_xy4.csv", function(data) {
+ 	for(i = 0; i < data.length ; i++){
 		heathect.push([]);
-		heathect[i][0] = data.features[i].geometry.coordinates[1];
-		heathect[i][1] = data.features[i].geometry.coordinates[0];
-		heathect[i][2] = data.features[i].properties.B14BTOT;
+		heathect[i][0] = data[i].Y;
+		heathect[i][1] = data[i].X;
+		heathect[i][2] = data[i].B14BTOT;
 	}
 
 	let heatmap = L.heatLayer(heathect, {radius: 30, max:65}).addTo(map);
