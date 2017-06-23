@@ -1,4 +1,9 @@
-#map {
+/*#map {
   width: 960px;
   height: 500px;
+}*/
+
+#map {
+  width: 1400px;
+  height: 700px;
 }
