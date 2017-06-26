@@ -8,6 +8,21 @@ var cartodb = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/li
 // Add the cartodb layer to the map
 cartodb.addTo(map);
 
+// // Creating the heatmap based on the poputlation hectares
+// let heathect = [];
+// // Loading population datas
+// d3.csv("data/hectpop_xy4.csv", function(data) {
+//  	for(i = 0; i < data.length ; i++){
+// 		heathect.push([]);
+// 		heathect[i][0] = data[i].Y;
+// 		heathect[i][1] = data[i].X;
+// 		heathect[i][2] = data[i].B14BTOT;
+// 	}
+//
+// // Adding the heatmap layer to the map
+// 	let heatmap = L.heatLayer(heathect, {radius: 25, max:65}).addTo(map);
+//  })
+
 // Creating the public transportation layer
 let ptStops = [];
 
@@ -17,20 +32,42 @@ let ptsOverlay = L.d3SvgOverlay(function(sel,proj){
 				.append("circle")
 				.attr('cx', function(d){return proj.latLngToLayerPoint(d.latLng).x;})
 				.attr('cy', function(d){return proj.latLngToLayerPoint(d.latLng).y;})
-				.attr('r', function(d){
-					if(d.MOYEN_TRAN == 'Bus'){
-						return 15;
+				.attr('r', 6)
+				.attr('fill', function(d){
+					if(d.MOYEN_TRAN.match('CheminFer')){
+						return "blue"
+					} else if(d.MOYEN_TRAN == 'Bus'){
+						return "lime"
 					} else {
-						return 75;
+						return "turquoise"
 					}
 				})
-				.attr('fill', 'none')
-				.attr('stroke', 'black')
 				.attr('opacity', 0.5)
 				.attr('class', function(d){
-					return d.MOYEN_TRAN;
-				});
+					if(d.MOYEN_TRAN.match('CheminFer')){
+						return "bigBuff"
+					} else if(d.MOYEN_TRAN == 'Bus'){
+						return "smallBuff"
+					} else {
+						return "midBuff"
+					}
+				})
 	});
+
+	tooltip = d3.select('#map')
+							.append('div')
+							.attr('class','tooltip');
+
+
+d3.selectAll('circle')
+	.on('mouseover', function(d){
+		d3.select(this)
+		.attr('pointer-events','visible')
+			.transition()
+			.duration(100)
+			.attr('r', 15);
+	});
+
 // Loading the public transportation datas
 d3.csv("data/pts_buff.csv",function(data){
 ptStops = data.map(function(d){
@@ -40,18 +77,3 @@ ptStops = data.map(function(d){
 });
 ptsOverlay.addTo(map);
 });
-
-// Creating the heatmap based on the poputlation hectares
-let heathect = [];
-// Loading population datas
-d3.csv("data/hectpop_xy4.csv", function(data) {
- 	for(i = 0; i < data.length ; i++){
-		heathect.push([]);
-		heathect[i][0] = data[i].Y;
-		heathect[i][1] = data[i].X;
-		heathect[i][2] = data[i].B14BTOT;
-	}
-
-// Adding the heatmap layer to the map
-	let heatmap = L.heatLayer(heathect, {radius: 25, max:65}).addTo(map);
- })
