@@ -1,10 +1,12 @@
 O = {};
 
-// SLIDER
-$(document).ready(function() {
-	$('#slider1').slider();
-	console.log("logged");
-});
+let bufferVal = [
+	{"sliderVal": 1, "buffer" : "100m", "bufferPx" : 15, "pop" : "buff100_SU"},
+	{"sliderVal": 2, "buffer" : "250m", "bufferPx" : 37.5, "pop" : "buff250_SU"},
+	{"sliderVal": 3, "buffer" : "500m", "bufferPx" : 75, "pop" : "buff500_SU"},
+	{"sliderVal": 4, "buffer" : "1000m", "bufferPx" : 150, "pop" : "buff1000_S"}
+];
+
 
 // Methods to get the size of the browser viewport
 let windowHeight = $(window).height();  // returns height of browser viewport
@@ -18,6 +20,7 @@ let tooltipMap;
 
 O.main = function(){
 	O.initMap();
+	O.sliderevent();
 };
 
 O.initMap = function(){
@@ -118,15 +121,20 @@ O.makePtStops = function(){
 					.transition()
 					.duration(50)
 					.attr('r', function(){
-						return $('#test').val();
+						return bufferVal[$('#slider1').val()-1].bufferPx;
 					});
-				tooltipMap.html(`${d.NOM} </br> Population desservie: ${d.buff100_SU}`)
+				tooltipMap.html(function(){
+										let pop = d[bufferVal[$('#slider1').val()-1].pop];
+										if(pop == ""){
+											pop = "0"
+										}
+										return `${d.NOM} </br> ${pop}`;
+									})
 									.transition()
 									.duration(50)
 									.style('opacity', 0.8)
 									.style('left', `${d3.event.pageX}px`)
 									.style('top', `${d3.event.pageY}px`);
-									console.log(d);
 			})
 			.on('mouseout', function(){
 				d3.select(this)
@@ -143,5 +151,12 @@ O.makePtStops = function(){
 
 O.changeOpacity = function(){
 	d3.selectAll('.leaflet-heatmap-layer').style('opacity',0.4);
-	console.log("sdf");
+	console.log("quoiquoiquoi");
 };
+
+O.sliderevent = function(){
+	$('.slidBuffer').change(function(){
+		// console.log(bufferVal[]);
+		$('#slider1_val').html(bufferVal[$('#slider1').val()-1].buffer);
+	});
+}
