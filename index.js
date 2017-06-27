@@ -46,6 +46,7 @@ O.makeHeatMap = function(){
 
 		// Adding the heatmap layer to the map
 		let heatmap = L.heatLayer(heathect, {radius: 25, max:65}).addTo(map);
+				O.changeOpacity();
 		// heatmap.setZIndex(0);
 	})
 	console.log("1");
@@ -118,5 +119,6 @@ O.makePtStops = function(){
 };
 
 O.changeOpacity = function(){
-	d3.selectAll('.leaflet-heatmap-layer').style('opacity',0.5);
+	d3.selectAll('.leaflet-heatmap-layer').style('opacity',0.4);
+	console.log("sdf");
 };
