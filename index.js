@@ -128,7 +128,7 @@ O.makePtStops = function(){
 										if(pop == ""){
 											pop = "0"
 										}
-										return `${d.NOM} </br> ${pop}`;
+										return `${d.NOM} </br> Population desservie: ${pop}`;
 									})
 									.transition()
 									.duration(50)
