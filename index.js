@@ -1,11 +1,19 @@
 O = {};
 
+// SLIDER
+$(document).ready(function() {
+	$('#slider1').slider();
+	console.log("logged");
+});
+
 // Methods to get the size of the browser viewport
 let windowHeight = $(window).height();  // returns height of browser viewport
 let windowWidth = $(window).width();  // returns width of browser viewport
 
 // GLOBAL VARIABLES
 let map;
+
+let tooltipMap;
 // let heatmap;
 
 O.main = function(){
@@ -30,6 +38,10 @@ O.initMap = function(){
 	// var opacitySlider = new L.Control.opacitySlider();
 	// map.addControl(opacitySlider);
 	// opacitySlider.setOpacityLayer(heatmap);
+
+	tooltipMap = d3.select('#map')
+								 .append('div')
+								 .attr('class', 'tooltip');
 };
 
 O.makeHeatMap = function(){
@@ -100,22 +112,33 @@ O.makePtStops = function(){
 	});
 
 	setTimeout(function(){
-		d3.selectAll('circle').on('mouseover',function(){
-			d3.select(this)
-			.transition()
-			.duration(50)
-			.attr('r', function(){
-				return $('#test').val();
+		d3.selectAll('circle')
+			.on('mouseover',function(d){
+				d3.select(this)
+					.transition()
+					.duration(50)
+					.attr('r', function(){
+						return $('#test').val();
+					});
+				tooltipMap.html(`${d.NOM} </br> Population desservie: ${d.buff100_SU}`)
+									.transition()
+									.duration(50)
+									.style('opacity', 0.8)
+									.style('left', `${d3.event.pageX}px`)
+									.style('top', `${d3.event.pageY}px`);
+									console.log(d);
+			})
+			.on('mouseout', function(){
+				d3.select(this)
+					.transition()
+					.duration(200)
+					.attr('r', 6);
+				tooltipMap.transition()
+									.duration(200)
+									.style('opacity', 0);
 			});
-		});
-		d3.selectAll('circle').on('mouseout', function(){
-			d3.select(this)
-			.transition()
-			.duration(200)
-			.attr('r', 6);
-		});
-	}, 1000);
-	console.log("2");
+		}, 1000);
+		console.log("2");
 };
 
 O.changeOpacity = function(){
