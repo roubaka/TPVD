@@ -33,3 +33,11 @@ td {
     fill: red;
     z-index: 5;
 }
+
+.axis path,
+.domain {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
