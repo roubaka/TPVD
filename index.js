@@ -4,6 +4,9 @@ O = {};
 let windowHeight = $(window).height();  // returns height of browser viewport
 let windowWidth = $(window).width();  // returns width of browser viewport
 
+
+let dataGraph = [0,0,0,0];
+
 // Dictionnary of buffer size and values linked to slider
 let bufferVal = [
 	{"sliderVal": 1, "buffer" : "100m", "bufferPx" : 15, "pop" : "buff100_SU"},
@@ -143,7 +146,7 @@ O.makePtStops = function(){
 									.style('top', `${d3.event.pageY}px`);
 
 				$('#graphLegend').html(function(){
-					return `<tr  id="arret> <td"> ${d.NOM} </td> </tr>
+					return `<tr id="arret"> <td> ${d.NOM} </td> </tr>
 									<tr>
 										<td> Commune : ${d.NOM_COMMUN} </td>
 										<td> Altitude : ${d.ALTITUDE} </td>
@@ -180,29 +183,42 @@ O.sliderevent = function(){
 }
 
 O.initGraph = function(){
-	// Creating margins for the svg
-  margin = {top : 5, right : 10, bottom : 20, left : 55};
+		// Creating margins for the svg
+	  margin = {top : 5, right : 10, bottom : 20, left : 55};
 
-  // Setting dimensions of the svg and padding between each value of the barplot
-  wGraph = $('#graphPart').width() - margin.left - margin.right;
-  hGraph = 350 - margin.top - margin.bottom;
+	  // Setting dimensions of the svg and padding between each value of the barplot
+	  wGraph = $('#graphPart').width() - margin.left - margin.right;
+	  hGraph = 350 - margin.top - margin.bottom;
 
-  // Creating svg, appending attributes
-  svgGraph = d3.select("#graph")
-               .append("svg")
-               .attr("width", wGraph + margin.left + margin.right)
-               .attr("height", hGraph + margin.top + margin.bottom)
-               .append("g")
-               .attr("transform", `translate(${margin.left},${margin.top})`);
+	  // Creating svg, appending attributes
+	  svgGraph = d3.select("#graph")
+	               .append("svg")
+	               .attr("width", wGraph + margin.left + margin.right)
+	               .attr("height", hGraph + margin.top + margin.bottom)
+	               .append("g")
+	               .attr("transform", `translate(${margin.left},${margin.top})`);
 
-	tooltipGraph = d3.select('#graph')
-                   .append('div')
-                   .attr('class', 'hidden tooltip');
+		tooltipGraph = d3.select('#graph')
+	                   .append('div')
+	                   .attr('class', 'hidden tooltip');
+
+		svgGraph.selectAll('.dot')
+						.data(dataGraph)
+						.enter()
+						.append('circle')
+						.attr('class','dot')
+						.attr('cx', function(d){
+							// return xScale(d.size);
+							return 0;
+						})
+						.attr('cy', hGraph)
+						.attr('r',0)
+						.style('fill', 'white');
 	}
 
 	O.updateGraph = function(data) {
 		// Transforming data
-		let dataGraph = [];
+		dataGraph = [];
 		dataGraph.push({"size": 100, "pop": +data.buff100_SU});
 		dataGraph.push({"size": 250, "pop": +data.buff250_SU});
 		dataGraph.push({"size": 500, "pop": +data.buff500_SU});
@@ -210,6 +226,8 @@ O.initGraph = function(){
 
 		// Setting up X
 		xScale = d3.scale.linear().range([0,wGraph]).domain([0,1000]);
+		// xScale = d3.scale.linear().range([0,wGraph]);
+
 		xAxis = d3.svg.axis().scale(xScale).orient('bottom');
 
 		// Setting up Y
@@ -217,6 +235,14 @@ O.initGraph = function(){
 		let yMax = d3.max(dataGraph, function(d){return d.pop})
 		yScale = d3.scale.linear().range([hGraph,0]).domain([yMin,yMax]);
 		yAxis = d3.svg.axis().scale(yScale).orient('left');
+
+		let line = d3.svg.line()
+								 .x(function(d){
+									 return xScale(d.size);
+								 })
+								 .y(function(d){
+									 return yScale(d.pop);
+								 });
 
 		svgGraph.append('g')
 						.attr('class','xAxis')
@@ -230,5 +256,27 @@ O.initGraph = function(){
 						.call(yAxis)
 						.attr('y',6)
 						.attr('dy', '.71em');
+
+		svgGraph.append('path')
+						// .datum(data)
+						.attr('d',line(dataGraph))
+						.style('stroke','black')
+						.style('stroke-width',2)
+						.style('fill','none');
+
+		svgGraph.selectAll('.dot')
+						.data(dataGraph)
+						.transition()
+						.duration(1000)
+						.attr('cx', function(d){
+							console.log(d);
+							return xScale(d.size)
+						})
+						.attr('cy', function(d){
+							return yScale(d.pop)
+						})
+						.attr('r',10)
+						.style('fill','red');
+
 
 	}
