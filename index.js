@@ -223,17 +223,12 @@ O.initGraph = function(){
 						.attr('transform', `translate(0,${hGraph})`)
 						.call(xAxis)
 						.attr('x', wGraph)
-						.attr('y', -3)
-						.style('text-anchor', 'end')
-						.style('stroke', 'black')
-						.style('stroke-width', '1px');
+						.attr('y', -3);
 
 		svgGraph.append('g')
 						.attr('class', 'yAxis')
-						// .attr('transform', 'rotate(-90)')
 						.call(yAxis)
 						.attr('y',6)
-						.attr('dy', '.71em')
-						.style('text-anchor', 'end');
+						.attr('dy', '.71em');
 
 	}
