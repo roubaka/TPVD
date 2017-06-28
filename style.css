@@ -17,3 +17,15 @@ div.tooltip {
   padding: 8px;
   margin-top: -20px;
 }
+
+td {
+  text-align: center;
+}
+
+#graphLegend {
+  width: 100%;
+}
+
+#arret{
+  text-align: left;
+}
