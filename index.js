@@ -1,5 +1,10 @@
 O = {};
 
+// Methods to get the size of the browser viewport
+let windowHeight = $(window).height();  // returns height of browser viewport
+let windowWidth = $(window).width();  // returns width of browser viewport
+
+// Dictionnary of buffer size and values linked to slider
 let bufferVal = [
 	{"sliderVal": 1, "buffer" : "100m", "bufferPx" : 15, "pop" : "buff100_SU"},
 	{"sliderVal": 2, "buffer" : "250m", "bufferPx" : 37.5, "pop" : "buff250_SU"},
@@ -7,20 +12,15 @@ let bufferVal = [
 	{"sliderVal": 4, "buffer" : "1000m", "bufferPx" : 150, "pop" : "buff1000_S"}
 ];
 
-
-// Methods to get the size of the browser viewport
-let windowHeight = $(window).height();  // returns height of browser viewport
-let windowWidth = $(window).width();  // returns width of browser viewport
-
 // GLOBAL VARIABLES
 let map;
-
 let tooltipMap;
-// let heatmap;
 
+// Initiaize the whole script of the page
 O.main = function(){
 	O.initMap();
 	O.sliderevent();
+	O.buildGraph();
 };
 
 O.initMap = function(){
@@ -128,13 +128,22 @@ O.makePtStops = function(){
 										if(pop == ""){
 											pop = "0"
 										}
-										return `${d.NOM} </br> Population desservie: ${pop}`;
+										return `${d.NOM} </br>
+										Population desservie : ${pop}`;
 									})
 									.transition()
 									.duration(50)
 									.style('opacity', 0.8)
 									.style('left', `${d3.event.pageX}px`)
 									.style('top', `${d3.event.pageY}px`);
+				$('#graphLegend').html(function(){
+					console.log(d);
+					return `<tr  id="arret"> <td> ${d.NOM} </td> </tr>
+									<tr>
+										<td> Commune : ${d.NOM_COMMUN} </td>
+										<td> Altitude : ${d.ALTITUDE} </td>
+									</tr>`;
+				})
 			})
 			.on('mouseout', function(){
 				d3.select(this)
@@ -151,12 +160,27 @@ O.makePtStops = function(){
 
 O.changeOpacity = function(){
 	d3.selectAll('.leaflet-heatmap-layer').style('opacity',0.4);
-	console.log("quoiquoiquoi");
 };
 
 O.sliderevent = function(){
 	$('.slidBuffer').change(function(){
-		// console.log(bufferVal[]);
 		$('#slider1_val').html(bufferVal[$('#slider1').val()-1].buffer);
 	});
+}
+
+O.buildGraph = function(){
+	// Creating margins for the svg
+  margin = {top : 10, right : 10, bottom : 20, left : 40};
+
+  // Setting dimensions of the svg and padding between each value of the barplot
+  wGraph = $('#graph').width() - margin.left - margin.right;
+  hGraph = 500 - margin.top - margin.bottom;
+
+  // Creating svg, appending attributes
+  svgGraph = d3.select("#graph")
+               .append("svg")
+               .attr("width", wGraph + margin.left + margin.right)
+               .attr("height", hGraph + margin.top + margin.bottom)
+               .append("g")
+               .attr("transform", `translate(${margin.left},${margin.top})`);
 }
