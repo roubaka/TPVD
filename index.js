@@ -20,7 +20,7 @@ let tooltipMap;
 O.main = function(){
 	O.initMap();
 	O.sliderevent();
-	O.buildGraph();
+	O.initGraph();
 };
 
 O.initMap = function(){
@@ -88,7 +88,9 @@ O.makePtStops = function(){
 				return "turquoise"
 			}
 		})
+		.style('position', 'relative')
 		.style('stroke','black')
+		// .style('z-index', 10000000)
 		.attr('opacity', 0.5)
 		.attr('class', function(d){
 			if(d.MOYEN_TRAN.match('CheminFer')){
@@ -106,9 +108,9 @@ O.makePtStops = function(){
 
 	// Loading the public transportation datas
 	d3.csv("data/pts_buff.csv",function(data){
+		console.log(data);
 		ptStops = data.map(function(d){
 			d.latLng = [+d.Y,+d.X];
-			// d.ALTITUDE = (d.ALTITUDE == '') ? 50 : +d.ALTITUDE; //NAs
 			return d;
 		});
 		ptsOverlay.addTo(map);
@@ -118,11 +120,14 @@ O.makePtStops = function(){
 		d3.selectAll('circle')
 			.on('mouseover',function(d){
 				d3.select(this)
+					// .style('z-index', 10)
 					.transition()
 					.duration(50)
 					.attr('r', function(){
 						return bufferVal[$('#slider1').val()-1].bufferPx;
 					});
+					console.log(this.style);
+					console.log(this.style.zIndex);
 				tooltipMap.html(function(){
 										let pop = d[bufferVal[$('#slider1').val()-1].pop];
 										if(pop == ""){
@@ -136,23 +141,29 @@ O.makePtStops = function(){
 									.style('opacity', 0.8)
 									.style('left', `${d3.event.pageX}px`)
 									.style('top', `${d3.event.pageY}px`);
+
 				$('#graphLegend').html(function(){
-					console.log(d);
-					return `<tr  id="arret"> <td> ${d.NOM} </td> </tr>
+					return `<tr  id="arret> <td"> ${d.NOM} </td> </tr>
 									<tr>
 										<td> Commune : ${d.NOM_COMMUN} </td>
 										<td> Altitude : ${d.ALTITUDE} </td>
 									</tr>`;
 				})
 			})
+			.on('click', function(d){
+				O.updateGraph(d);
+			})
 			.on('mouseout', function(){
 				d3.select(this)
+					// .style('z-index', 10000000)
 					.transition()
 					.duration(200)
 					.attr('r', 6);
+					console.log(this.style.zIndex);
 				tooltipMap.transition()
 									.duration(200)
 									.style('opacity', 0);
+
 			});
 		}, 1000);
 		console.log("2");
@@ -168,7 +179,7 @@ O.sliderevent = function(){
 	});
 }
 
-O.buildGraph = function(){
+O.initGraph = function(){
 	// Creating margins for the svg
   margin = {top : 10, right : 10, bottom : 20, left : 40};
 
@@ -183,4 +194,37 @@ O.buildGraph = function(){
                .attr("height", hGraph + margin.top + margin.bottom)
                .append("g")
                .attr("transform", `translate(${margin.left},${margin.top})`);
-}
+
+	// Setting up Scales
+	xScale = d3.scale.linear().range([0,wGraph]);
+	yScale = d3.scale.linear().range([hGraph,0]);
+
+	tooltipGraph = d3.select('#graph')
+                   .append('div')
+                   .attr('class', 'hidden tooltip');
+	//
+	// d3.csv("data/pts_buff.csv",function(data){
+	// 	console.log(data);
+	//
+	// 	data.forEach(function(d){
+	// 		d.buff100_SU = +d.buff100_SU;
+	// 		d.buff250_SU = +d.buff250_SU;
+	// 		d.buff500_SU = +d.buff500_SU;
+	// 		d.buff1000_S = +d.buff1000_S;
+	// 	})
+
+
+
+	}
+
+	O.updateGraph = function(data) {
+		let dataGraph = [];
+		dataGraph.push({"size": 100, "pop": data.buff100_SU});
+		dataGraph.push({"size": 250, "pop": data.buff250_SU});
+		dataGraph.push({"size": 500, "pop": data.buff500_SU});
+		dataGraph.push({"size": 1000, "pop": data.buff1000_S});
+
+		xScale = d3.scale.linear().range();
+
+		console.log(dataGraph);
+	}
