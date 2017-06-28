@@ -181,11 +181,11 @@ O.sliderevent = function(){
 
 O.initGraph = function(){
 	// Creating margins for the svg
-  margin = {top : 10, right : 10, bottom : 20, left : 40};
+  margin = {top : 5, right : 10, bottom : 20, left : 55};
 
   // Setting dimensions of the svg and padding between each value of the barplot
-  wGraph = $('#graph').width() - margin.left - margin.right;
-  hGraph = 500 - margin.top - margin.bottom;
+  wGraph = $('#graphPart').width() - margin.left - margin.right;
+  hGraph = 350 - margin.top - margin.bottom;
 
   // Creating svg, appending attributes
   svgGraph = d3.select("#graph")
@@ -195,36 +195,45 @@ O.initGraph = function(){
                .append("g")
                .attr("transform", `translate(${margin.left},${margin.top})`);
 
-	// Setting up Scales
-	xScale = d3.scale.linear().range([0,wGraph]);
-	yScale = d3.scale.linear().range([hGraph,0]);
-
 	tooltipGraph = d3.select('#graph')
                    .append('div')
                    .attr('class', 'hidden tooltip');
-	//
-	// d3.csv("data/pts_buff.csv",function(data){
-	// 	console.log(data);
-	//
-	// 	data.forEach(function(d){
-	// 		d.buff100_SU = +d.buff100_SU;
-	// 		d.buff250_SU = +d.buff250_SU;
-	// 		d.buff500_SU = +d.buff500_SU;
-	// 		d.buff1000_S = +d.buff1000_S;
-	// 	})
-
-
-
 	}
 
 	O.updateGraph = function(data) {
+		// Transforming data
 		let dataGraph = [];
-		dataGraph.push({"size": 100, "pop": data.buff100_SU});
-		dataGraph.push({"size": 250, "pop": data.buff250_SU});
-		dataGraph.push({"size": 500, "pop": data.buff500_SU});
-		dataGraph.push({"size": 1000, "pop": data.buff1000_S});
+		dataGraph.push({"size": 100, "pop": +data.buff100_SU});
+		dataGraph.push({"size": 250, "pop": +data.buff250_SU});
+		dataGraph.push({"size": 500, "pop": +data.buff500_SU});
+		dataGraph.push({"size": 1000, "pop": +data.buff1000_S});
 
-		xScale = d3.scale.linear().range();
+		// Setting up X
+		xScale = d3.scale.linear().range([0,wGraph]).domain([0,1000]);
+		xAxis = d3.svg.axis().scale(xScale).orient('bottom');
 
-		console.log(dataGraph);
+		// Setting up Y
+		let yMin = d3.min(dataGraph, function(d){return d.pop});
+		let yMax = d3.max(dataGraph, function(d){return d.pop})
+		yScale = d3.scale.linear().range([hGraph,0]).domain([yMin,yMax]);
+		yAxis = d3.svg.axis().scale(yScale).orient('left');
+
+		svgGraph.append('g')
+						.attr('class','xAxis')
+						.attr('transform', `translate(0,${hGraph})`)
+						.call(xAxis)
+						.attr('x', wGraph)
+						.attr('y', -3)
+						.style('text-anchor', 'end')
+						.style('stroke', 'black')
+						.style('stroke-width', '1px');
+
+		svgGraph.append('g')
+						.attr('class', 'yAxis')
+						// .attr('transform', 'rotate(-90)')
+						.call(yAxis)
+						.attr('y',6)
+						.attr('dy', '.71em')
+						.style('text-anchor', 'end');
+
 	}
