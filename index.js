@@ -6,6 +6,7 @@ let windowWidth = $(window).width();  // returns width of browser viewport
 
 
 let dataGraph = [0,0,0,0];
+let line;
 
 // Dictionnary of buffer size and values linked to slider
 let bufferVal = [
@@ -214,6 +215,18 @@ O.initGraph = function(){
 						.attr('cy', hGraph)
 						.attr('r',0)
 						.style('fill', 'white');
+
+		svgGraph.append('g')
+						.attr('class','xAxis')
+						.attr('transform', `translate(0,${hGraph})`);
+
+		svgGraph.append('g')
+						.attr('class', 'yAxis');
+
+		svgGraph.append('path')
+						.attr('class','line')
+						// .attr('d','M0,0L0,0')
+						.style('stroke','none');
 	}
 
 	O.updateGraph = function(data) {
@@ -244,21 +257,24 @@ O.initGraph = function(){
 									 return yScale(d.pop);
 								 });
 
-		svgGraph.append('g')
-						.attr('class','xAxis')
-						.attr('transform', `translate(0,${hGraph})`)
+		svgGraph.select('.xAxis')
+						.transition()
+						.duration(1000)
 						.call(xAxis)
 						.attr('x', wGraph)
-						.attr('y', -3);
+						.attr('y', -3);;
 
-		svgGraph.append('g')
-						.attr('class', 'yAxis')
+
+		svgGraph.select('.yAxis')
+						.transition()
+						.duration(1000)
 						.call(yAxis)
 						.attr('y',6)
 						.attr('dy', '.71em');
 
-		svgGraph.append('path')
-						// .datum(data)
+		svgGraph.select('.line')
+						.transition()
+						.duration(1000)
 						.attr('d',line(dataGraph))
 						.style('stroke','black')
 						.style('stroke-width',2)
@@ -269,7 +285,6 @@ O.initGraph = function(){
 						.transition()
 						.duration(1000)
 						.attr('cx', function(d){
-							console.log(d);
 							return xScale(d.size)
 						})
 						.attr('cy', function(d){
