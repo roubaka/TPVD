@@ -41,8 +41,3 @@ td {
   shape-rendering: crispEdges;
   stroke-width: 1px;
 }
-
-#MetroBubble, #BusBubble{
-  line-height: 2.5;
-  /*text-align: center;*/
-}
