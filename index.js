@@ -7,6 +7,8 @@ let windowWidth = $(window).width();  // returns width of browser viewport
 let dataGraph = [0,0,0,0];
 let line;
 
+let gradient = ['red', 'yellow', 'lime', 'cyan', 'blue'];
+
 // Dictionnary of buffer size and values linked to slider
 let bufferVal = [
 	{"sliderVal": 1, "buffer" : "100m", "bufferPx" : 15, "pop" : "buff100_SU"},
@@ -65,9 +67,25 @@ O.makeHeatMap = function(){
 		// Adding the heatmap layer to the map
 		let heatmap = L.heatLayer(heathect, {radius: 30, max: 500}).addTo(map);
 				O.changeOpacity();
-		// heatmap.setZIndex(0);
 	})
-	console.log("1");
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+	    let div = L.DomUtil.create('div', 'info legend'),
+	        grades = ["HIGH", "", "MEDIUM", "", "LOW"],
+	        labels = [];
+
+	    // loop through our density intervals and generate a label with a colored square for each interval
+	    for (var i = 0; i < grades.length; i++) {
+				console.log(grades[i]);
+	        div.innerHTML += '<i style="background-color:' + gradient[i] + '"></i> ' + grades[i] + "<br>";
+	    }
+
+	    return div;
+	};
+
+	legend.addTo(map);
 	// O.makePtStops();
 };
 
