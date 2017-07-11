@@ -4,7 +4,6 @@ O = {};
 let windowHeight = $(window).height();  // returns height of browser viewport
 let windowWidth = $(window).width();  // returns width of browser viewport
 
-
 let dataGraph = [0,0,0,0];
 let line;
 
@@ -29,7 +28,7 @@ O.main = function(){
 
 O.initMap = function(){
 	// Initiaize the map
-	map = new L.map("map", {center: [46.52, 6.60], zoom: 14});
+	map = new L.map("map", {center: [46.52, 6.60], zoom: 14, minZoom: 10, maxZoom: 15, maxBounds: ([[46.128688, 5.971754],[47.121474, 7.313116]])});
 	let cartodb = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
 	});
@@ -64,7 +63,7 @@ O.makeHeatMap = function(){
 		}
 
 		// Adding the heatmap layer to the map
-		let heatmap = L.heatLayer(heathect, {radius: 25, max:65}).addTo(map);
+		let heatmap = L.heatLayer(heathect, {radius: 30, max: 500}).addTo(map);
 				O.changeOpacity();
 		// heatmap.setZIndex(0);
 	})
@@ -98,11 +97,11 @@ O.makePtStops = function(){
 		.attr('opacity', 0.5)
 		.attr('class', function(d){
 			if(d.MOYEN_TRAN.match('CheminFer')){
-				return "bigBuff"
+				return "bigBuff dot"
 			} else if(d.MOYEN_TRAN == 'Bus'){
-				return "smallBuff"
+				return "smallBuff dot"
 			} else {
-				return "midBuff"
+				return "midBuff dot"
 			}
 		});
 	});
@@ -121,14 +120,20 @@ O.makePtStops = function(){
 	});
 
 	setTimeout(function(){
-		d3.selectAll('circle')
+		d3.selectAll('.dot')
 			.on('mouseover',function(d){
 				d3.select(this)
 					// .style('z-index', 10)
 					.transition()
 					.duration(50)
-					.attr('r', function(){
-						return bufferVal[$('#slider1').val()-1].bufferPx;
+					.attr('r', function(d){
+						if(d.MOYEN_TRAN.match('CheminFer')){
+							return bufferVal[$('#slider1').val()-1].bufferPx;
+						} else if(d.MOYEN_TRAN == 'Bus'){
+							return bufferVal[$('#slider3').val()-1].bufferPx;
+						} else {
+							return bufferVal[$('#slider2').val()-1].bufferPx;
+						}
 					});
 					console.log(this.style);
 					console.log(this.style.zIndex);
@@ -180,6 +185,8 @@ O.changeOpacity = function(){
 O.sliderevent = function(){
 	$('.slidBuffer').change(function(){
 		$('#slider1_val').html(bufferVal[$('#slider1').val()-1].buffer);
+		$('#slider2_val').html(bufferVal[$('#slider2').val()-1].buffer);
+		$('#slider3_val').html(bufferVal[$('#slider3').val()-1].buffer);
 	});
 }
 
@@ -203,11 +210,11 @@ O.initGraph = function(){
 	                   .append('div')
 	                   .attr('class', 'hidden tooltip');
 
-		svgGraph.selectAll('.dot')
+		svgGraph.selectAll('.point')
 						.data(dataGraph)
 						.enter()
 						.append('circle')
-						.attr('class','dot')
+						.attr('class','point')
 						.attr('cx', function(d){
 							// return xScale(d.size);
 							return 0;
@@ -280,7 +287,7 @@ O.initGraph = function(){
 						.style('stroke-width',2)
 						.style('fill','none');
 
-		svgGraph.selectAll('.dot')
+		svgGraph.selectAll('.point')
 						.data(dataGraph)
 						.transition()
 						.duration(1000)
