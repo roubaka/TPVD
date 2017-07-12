@@ -327,7 +327,7 @@ O.initGraph = function(){
 						.attr('cy', function(d){
 							return yScale(d.pop)
 						})
-						.attr('r',5)
+						.attr('r',10)
 						.style('opacity', 0.7)
 						.style('fill','red');
 
@@ -339,14 +339,15 @@ O.initGraph = function(){
 					return `${d.pop} habitants desservis <br> pour ${d.size}m`;
 				})
 				.style('left', `${cx}px`)
-				.style('top', `${cy}px`)
-				// .transition()
-				// .duration(50)
-				.style('opacity', 0.8);
-			})
-			.on('mouseout', function(){
+				.style('top', `${cy}px`);
 				tooltipGraph.transition()
-										.duration(200)
+										.duration(500)
+										.style('opacity', 0.8);
+			})
+			.on('mouseout', function(d){
+				console.log('de lamerde');
+				tooltipGraph.transition()
+										.duration(500)
 										.style('opacity', 0);
 			});
 	}
