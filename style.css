@@ -8,6 +8,10 @@
   height: 600px;
 }
 
+body{
+  padding-top: 65px;
+}
+
 div.tooltip {
   position: absolute;
   background-color: #424242;

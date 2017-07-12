@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html lang="fr">
+<meta charset="UTF-8">
 <head>
   <!-- LIBRARIES -->
   <title>Carte interactive sur les transports publics Vaud</title>
@@ -23,7 +25,19 @@
 <body>
   <!-- HEADER -->
   <header>
-    TPVD
+    <nav class="navbar navbar-inverse navbar-fixed-top"> <!--inverse for styling - fixed top so header is fixed on top whatever scrolling-->
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="http://localhost:8000/">TPVD</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a target="_blank" href="https://github.com/roubaka/TPVD/">Projet Github</a></li>
+            <li><a target="_blank" href="mailto:lucas.martinez@unil.ch">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
   <!-- MAIN BODY -->
   <div class="col-lg-8 col-md-8 col-sm-8">
