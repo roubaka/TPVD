@@ -68,26 +68,40 @@ O.makeHeatMap = function(){
 		let heatmap = L.heatLayer(heathect, {radius: 30, max: 500}).addTo(map);
 				O.changeOpacity();
 	})
+
+	// Adding Legend
 	var legend = L.control({position: 'bottomright'});
 
 	legend.onAdd = function (map) {
+		// Creating div for legend
+		let div = L.DomUtil.create('div', 'info legend');
 
-	    let div = L.DomUtil.create('div', 'info legend'),
-	        grades = ["HIGH", "", "MEDIUM", "", "LOW"],
-	        labels = [];
-
-	    // loop through our density intervals and generate a label with a colored square for each interval
-	    for (var i = 0; i < grades.length; i++) {
-				console.log(grades[i]);
-	        div.innerHTML += '<i style="background-color:' + gradient[i] + '"></i> ' + grades[i] + "<br>";
-	    }
-
-	    return div;
+		// Inserting HTML table for gradient color and labels
+		div.innerHTML = 'POPULATION <table> <tbody> <tr> <td> <canvas id="myCanvas" width="20" height="75" style="border:1px solid #d3d3d3;opacity:0.7"> </canvas> </td> <td> &nbsp; HIGH </br> </br> </br> </br> &nbsp; LOW </td> </tr> </tbody> </table>';
+		return div;
 	};
 
 	legend.addTo(map);
+
+	O.colorLegend();
 	// O.makePtStops();
 };
+
+O.colorLegend = function(){
+	// Adding color gradient to the legend
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	var grd = ctx.createLinearGradient(0,0,0,75);
+
+	grd.addColorStop(0, "red");
+	grd.addColorStop(0.25, "yellow");
+	grd.addColorStop(0.5, "lime");
+	grd.addColorStop(0.75, "cyan");
+	grd.addColorStop(1, "blue");
+
+	ctx.fillStyle = grd;
+	ctx.fillRect(0, 0, 256, 256);
+}
 
 O.makePtStops = function(){
 	// Creating the public transportation layer
