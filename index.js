@@ -77,7 +77,7 @@ O.makeHeatMap = function(){
 		let div = L.DomUtil.create('div', 'info legend');
 
 		// Inserting HTML table for gradient color and labels
-		div.innerHTML = 'POPULATION <table> <tbody> <tr> <td> <canvas id="myCanvas" width="20" height="75" style="border:1px solid #d3d3d3;opacity:0.7"> </canvas> </td> <td> &nbsp; HIGH </br> </br> </br> </br> &nbsp; LOW </td> </tr> </tbody> </table>';
+		div.innerHTML = 'POPULATION <table> <tbody> <tr> <td> <canvas id="myCanvas" width="20" height="75" style="border:1px solid #d3d3d3;opacity:0.7"> </canvas> </td> <td> &nbsp; Elevée </br> </br> </br> </br> &nbsp; Faible </td> </tr> </tbody> </table>';
 		return div;
 	};
 
@@ -167,8 +167,6 @@ O.makePtStops = function(){
 							return bufferVal[$('#slider2').val()-1].bufferPx;
 						}
 					});
-					console.log(this.style);
-					console.log(this.style.zIndex);
 				tooltipMap.html(function(){
 										let pop = d[bufferVal[$('#slider1').val()-1].pop];
 										if(pop == ""){
@@ -183,6 +181,8 @@ O.makePtStops = function(){
 									.style('left', `${d3.event.pageX}px`)
 									.style('top', `${d3.event.pageY}px`);
 
+			})
+			.on('click', function(d){
 				$('#graphLegend').html(function(){
 					return `<tr id="arret"> <td> ${d.NOM} </td> </tr>
 									<tr>
@@ -190,8 +190,6 @@ O.makePtStops = function(){
 										<td> Altitude : ${d.ALTITUDE} </td>
 									</tr>`;
 				})
-			})
-			.on('click', function(d){
 				O.updateGraph(d);
 			})
 			.on('mouseout', function(){
@@ -200,10 +198,9 @@ O.makePtStops = function(){
 					.transition()
 					.duration(200)
 					.attr('r', 6);
-					console.log(this.style.zIndex);
-				tooltipMap.transition()
-									.duration(200)
-									.style('opacity', 0);
+					tooltipMap.transition()
+										.duration(200)
+										.style('opacity', 0);
 
 			});
 		}, 1000);
@@ -224,7 +221,7 @@ O.sliderevent = function(){
 
 O.initGraph = function(){
 		// Creating margins for the svg
-	  margin = {top : 5, right : 10, bottom : 20, left : 55};
+	  margin = {top : 40, right : 40, bottom : 20, left : 55};
 
 	  // Setting dimensions of the svg and padding between each value of the barplot
 	  wGraph = $('#graphPart').width() - margin.left - margin.right;
@@ -240,7 +237,8 @@ O.initGraph = function(){
 
 		tooltipGraph = d3.select('#graph')
 	                   .append('div')
-	                   .attr('class', 'hidden tooltip');
+	                   .attr('class', 'tooltipGraph')
+										 .style('opacity',0);
 
 		svgGraph.selectAll('.point')
 						.data(dataGraph)
@@ -316,7 +314,7 @@ O.initGraph = function(){
 						.duration(1000)
 						.attr('d',line(dataGraph))
 						.style('stroke','black')
-						.style('stroke-width',2)
+						.style('stroke-width',0.7)
 						.style('fill','none');
 
 		svgGraph.selectAll('.point')
@@ -329,8 +327,26 @@ O.initGraph = function(){
 						.attr('cy', function(d){
 							return yScale(d.pop)
 						})
-						.attr('r',10)
+						.attr('r',5)
+						.style('opacity', 0.7)
 						.style('fill','red');
 
-
+		svgGraph.selectAll('.point')
+			.on('mouseover', function(d){
+				let cx = d3.select(this).attr('cx');
+				let cy = d3.select(this).attr('cy');
+				tooltipGraph.html(function(){
+					return `${d.pop} habitants desservis <br> pour ${d.size}m`;
+				})
+				.style('left', `${cx}px`)
+				.style('top', `${cy}px`)
+				// .transition()
+				// .duration(50)
+				.style('opacity', 0.8);
+			})
+			.on('mouseout', function(){
+				tooltipGraph.transition()
+										.duration(200)
+										.style('opacity', 0);
+			});
 	}

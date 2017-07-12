@@ -18,8 +18,19 @@ div.tooltip {
   color: white;
   text-align: center;
   padding: 8px;
-  margin-top: -20px;
+  margin-top: -50px;
 }
+
+div.tooltipGraph {
+  position: absolute;
+  background-color: #424242;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  margin-top: 30px;
+  margin-left: 60px;
+}
+
 
 td {
   text-align: center;
