@@ -157,7 +157,7 @@ O.makePtStops = function(){
 				d3.select(this)
 					// .style('z-index', 10)
 					.transition()
-					.duration(50)
+					.duration(100)
 					.attr('r', function(d){
 						if(d.MOYEN_TRAN.match('CheminFer')){
 							return bufferVal[$('#slider1').val()-1].bufferPx;
@@ -168,7 +168,14 @@ O.makePtStops = function(){
 						}
 					});
 				tooltipMap.html(function(){
-										let pop = d[bufferVal[$('#slider1').val()-1].pop];
+										let pop = "";
+										if(d.MOYEN_TRAN.match('CheminFer')){
+											pop = d[bufferVal[$('#slider1').val()-1].pop];
+										} else if(d.MOYEN_TRAN == 'Bus'){
+											pop = d[bufferVal[$('#slider3').val()-1].pop];
+										} else {
+											pop = d[bufferVal[$('#slider2').val()-1].pop];
+										}
 										if(pop == ""){
 											pop = "0"
 										}
@@ -221,7 +228,7 @@ O.sliderevent = function(){
 
 O.initGraph = function(){
 		// Creating margins for the svg
-	  margin = {top : 40, right : 40, bottom : 20, left : 55};
+	  margin = {top : 40, right : 60, bottom : 48, left : 75};
 
 	  // Setting dimensions of the svg and padding between each value of the barplot
 	  wGraph = $('#graphPart').width() - margin.left - margin.right;
@@ -260,9 +267,22 @@ O.initGraph = function(){
 		svgGraph.append('g')
 						.attr('class', 'yAxis');
 
+		svgGraph.append("text")
+						.attr('class', 'axisLabel')
+            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+            .attr("transform", "translate("+ (-65) +","+(hGraph/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+						.style('opacity', 0)
+						.text("Population");
+
+    svgGraph.append("text")
+						.attr('class', 'axisLabel')
+            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+            .attr("transform", "translate("+ (wGraph/2) +","+(hGraph-(-45))+")")  // centre below axis
+            .style('opacity', 0)
+						.text("Zone tampon en mètres");
+
 		svgGraph.append('path')
 						.attr('class','line')
-						// .attr('d','M0,0L0,0')
 						.style('stroke','none');
 	}
 
@@ -309,6 +329,10 @@ O.initGraph = function(){
 						.attr('y',6)
 						.attr('dy', '.71em');
 
+		svgGraph.selectAll('.axisLabel')
+						.style('font-weight', 'bold')
+						.style('opacity', 1);
+
 		svgGraph.select('.line')
 						.transition()
 						.duration(1000)
@@ -327,7 +351,7 @@ O.initGraph = function(){
 						.attr('cy', function(d){
 							return yScale(d.pop)
 						})
-						.attr('r',10)
+						.attr('r',6)
 						.style('opacity', 0.7)
 						.style('fill','red');
 
@@ -341,13 +365,20 @@ O.initGraph = function(){
 				.style('left', `${cx}px`)
 				.style('top', `${cy}px`);
 				tooltipGraph.transition()
-										.duration(500)
+										.duration(100)
 										.style('opacity', 0.8);
 			})
 			.on('mouseout', function(d){
 				console.log('de lamerde');
 				tooltipGraph.transition()
-										.duration(500)
+										.duration(200)
 										.style('opacity', 0);
+
 			});
+
+			// Replace part of the labels
+				$('text').each(function(){
+						let legendText = $(this).text().replace(',',"'");
+						$(this).text(legendText);
+				});
 	}
