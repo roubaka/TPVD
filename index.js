@@ -232,7 +232,7 @@ O.initGraph = function(){
 
 	  // Setting dimensions of the svg and padding between each value of the barplot
 	  wGraph = $('#graphPart').width() - margin.left - margin.right;
-	  hGraph = 350 - margin.top - margin.bottom;
+	  hGraph = 400 - margin.top - margin.bottom;
 
 	  // Creating svg, appending attributes
 	  svgGraph = d3.select("#graph")
@@ -245,6 +245,8 @@ O.initGraph = function(){
 		tooltipGraph = d3.select('#graph')
 	                   .append('div')
 	                   .attr('class', 'tooltipGraph')
+										 .style('left', '0px')
+										 .style('top', '0px')
 										 .style('opacity',0);
 
 		svgGraph.selectAll('.point')
@@ -369,7 +371,6 @@ O.initGraph = function(){
 										.style('opacity', 0.8);
 			})
 			.on('mouseout', function(d){
-				console.log('de lamerde');
 				tooltipGraph.transition()
 										.duration(200)
 										.style('opacity', 0);
