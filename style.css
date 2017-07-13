@@ -37,7 +37,13 @@ td {
 }
 
 #arret{
-  text-align: left;
+  width: 60%;
+  font-weight: bold;
+  text-align: right;
+}
+
+text{
+  font-size: 11px;
 }
 
 .bottom {
@@ -66,7 +72,9 @@ td {
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
-/*.info h4 {
-    margin: 0 0 5px;
-    color: #777;
-}*/
+
+#slideLabel{
+  padding: 0px 0px 60px 0px;
+  font-weight: bold;
+  text-align: center;
+}

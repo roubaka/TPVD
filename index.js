@@ -136,6 +136,7 @@ O.makePtStops = function(){
 				return "midBuff dot"
 			}
 		});
+		$('.dot').css('cursor','pointer');
 	});
 
 	// ptsOverlay.setZIndex(15);
@@ -228,11 +229,11 @@ O.sliderevent = function(){
 
 O.initGraph = function(){
 		// Creating margins for the svg
-	  margin = {top : 40, right : 60, bottom : 48, left : 75};
+	  margin = {top : 40, right : 60, bottom : 48, left : 70};
 
 	  // Setting dimensions of the svg and padding between each value of the barplot
 	  wGraph = $('#graphPart').width() - margin.left - margin.right;
-	  hGraph = 400 - margin.top - margin.bottom;
+	  hGraph = 380 - margin.top - margin.bottom;
 
 	  // Creating svg, appending attributes
 	  svgGraph = d3.select("#graph")
@@ -272,14 +273,14 @@ O.initGraph = function(){
 		svgGraph.append("text")
 						.attr('class', 'axisLabel')
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (-65) +","+(hGraph/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+            .attr("transform", "translate("+ (-60) +","+(hGraph/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
 						.style('opacity', 0)
 						.text("Population");
 
     svgGraph.append("text")
 						.attr('class', 'axisLabel')
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (wGraph/2) +","+(hGraph-(-45))+")")  // centre below axis
+            .attr("transform", "translate("+ (wGraph/2) +","+(hGraph-(-40))+")")  // centre below axis
             .style('opacity', 0)
 						.text("Zone tampon en mètres");
 
