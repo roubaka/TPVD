@@ -226,7 +226,7 @@ O.sliderevent = function(){
 
 O.initGraph = function(){
 		// Creating margins for the svg
-	  margin = {top : 40, right : 60, bottom : 48, left : 75};
+	  margin = {top : 40, right : 40, bottom : 55, left : 52};
 
 	  // Setting dimensions of the svg and padding between each value of the barplot
 	  wGraph = $('#graphPart').width() - margin.left - margin.right;
@@ -270,14 +270,14 @@ O.initGraph = function(){
 		svgGraph.append("text")
 						.attr('class', 'axisLabel')
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (-65) +","+(hGraph/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+            .attr("transform", "translate("+ (20) +","+(35)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
 						.style('opacity', 0)
 						.text("Population");
 
     svgGraph.append("text")
 						.attr('class', 'axisLabel')
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (wGraph/2) +","+(hGraph-(-45))+")")  // centre below axis
+            .attr("transform", "translate("+ (wGraph-(75)) +","+(hGraph-(10))+")")  // centre below axis
             .style('opacity', 0)
 						.text("Zone tampon en mètres");
 
@@ -287,6 +287,8 @@ O.initGraph = function(){
 	}
 
 	O.updateGraph = function(data) {
+
+		$('#tuto').remove();
 		// Transforming data
 		dataGraph = [];
 		for(i = 1; i <= 10; i++){
@@ -335,7 +337,6 @@ O.initGraph = function(){
 						.attr('dy', '.71em');
 
 		svgGraph.selectAll('.axisLabel')
-						.style('font-weight', 'bold')
 						.style('opacity', 1);
 
 		svgGraph.select('.line')

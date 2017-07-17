@@ -12,7 +12,7 @@ Description
 ------------
 TPVD (pour transports Vaud) est une application de cartographie interactive qui permet de visualisation de la desserte des arrêts de transport en commun du canton de Vaud (Suisse).
 
-Chaque arrêt de transport donne d'indication de la population desservie selon différents rayons de 100 à 1000 mètres et affiche cette distance sous forme de zone tampon en temps réel. Il est possible de moduler la taille des rayons selon le type d'arrêt de transport, qu'il soit un arrêt de bus, de métro ou d'une gare de chemin de fer. Sous ces arrêts se trouve une indication rapide de la population sous la forme d'une *heatmap* ou carte de chaleur, qui permet de cibler l'analyse à des zones avec une faible ou une forte densité de population.
+Chaque arrêt de transport donne d'indication de la population desservie selon différents rayons de 100 à 1000 mètres et affiche cette distance sous forme de zone tampon en temps réel. Il est possible de moduler la taille des rayons selon le type d'arrêt de transport, qu'il soit un arrêt de bus, de métro ou d'une gare de chemin de fer. Une indication rapide de la population sous la forme d'une *heatmap* ou carte de chaleur permet de cibler l'analyse à des zones avec une faible ou une forte densité de population.
 Si l'on s'intéresse particulièrement à un arrêt de transport en commun, il est possible d'afficher l'évolution de sa desserte en terme de population selon la distance à l'aide d'un graphique.
 
 Le public cible d'une telle application sont des profesionnels dans le domaine des transports, de l'aménagement du territoire ou des décideurs politiques. Il est probable que ces derniers pourraient avoir besoin de croiser des données sur les transports publics et de la population desservie relative à différentes distances rapidement et de manière simple afin d'apprécier la la desserte globale des arrêts de transport.
@@ -61,7 +61,6 @@ TPVD a été développé avec les librairies suivantes :
 - Bootstrap 3.3.7
 - D3SvgOverlay
 - Leaflet-heat
-- Bootstrap-slider
 
 Le fond de carte utilisé provient de https://cartodb-basemaps
 

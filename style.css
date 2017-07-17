@@ -36,9 +36,18 @@ td {
   width: 100%;
 }
 
-/*#arret{
-  text-align: left;
-}*/
+#tuto{
+  text-align: right;
+  font-style: italic;
+}
+
+#arret{
+  font-weight: bold;
+}
+
+#slideLabel{
+  font-weight: bold;
+}
 
 .bottom {
     fill: red;
