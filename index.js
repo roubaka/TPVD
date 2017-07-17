@@ -175,8 +175,8 @@ O.makePtStops = function(){
 										} else {
 											pop = d[bufferVal[$('#slider2').val()-1].pop];
 										}
-										if(pop == ""){
-											pop = "0"
+										if(pop == "NA"){
+											pop = 0;
 										}
 										return `${d.NOM} </br>
 										Population desservie : ${pop}`;
@@ -210,7 +210,6 @@ O.makePtStops = function(){
 
 			});
 		}, 1000);
-		console.log("2");
 };
 
 O.changeOpacity = function(){
