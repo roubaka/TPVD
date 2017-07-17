@@ -36,15 +36,9 @@ td {
   width: 100%;
 }
 
-#arret{
-  width: 60%;
-  font-weight: bold;
-  text-align: right;
-}
-
-text{
-  font-size: 11px;
-}
+/*#arret{
+  text-align: left;
+}*/
 
 .bottom {
     fill: red;
@@ -72,9 +66,7 @@ text{
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
-
-#slideLabel{
-  padding: 0px 0px 60px 0px;
-  font-weight: bold;
-  text-align: center;
-}
+/*.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}*/

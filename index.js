@@ -4,18 +4,17 @@ O = {};
 let windowHeight = $(window).height();  // returns height of browser viewport
 let windowWidth = $(window).width();  // returns width of browser viewport
 
-let dataGraph = [0,0,0,0];
+let dataGraph = [0,0,0,0,0,0,0,0,0,0];
 let line;
 
 let gradient = ['red', 'yellow', 'lime', 'cyan', 'blue'];
 
 // Dictionnary of buffer size and values linked to slider
-let bufferVal = [
-	{"sliderVal": 1, "buffer" : "100m", "bufferPx" : 15, "pop" : "buff100_SU"},
-	{"sliderVal": 2, "buffer" : "250m", "bufferPx" : 37.5, "pop" : "buff250_SU"},
-	{"sliderVal": 3, "buffer" : "500m", "bufferPx" : 75, "pop" : "buff500_SU"},
-	{"sliderVal": 4, "buffer" : "1000m", "bufferPx" : 150, "pop" : "buff1000_S"}
-];
+let bufferVal = [];
+
+for(i = 1; i <= 10; i++){
+	bufferVal.push({"sliderVal": i, "buffer": `${i*100}m`, "bufferPx": i*15, "pop":`pop${i*100}m`});
+}
 
 // GLOBAL VARIABLES
 let map;
@@ -136,14 +135,13 @@ O.makePtStops = function(){
 				return "midBuff dot"
 			}
 		});
-		$('.dot').css('cursor','pointer');
 	});
 
 	// ptsOverlay.setZIndex(15);
 	// ptsOverlay.bringToFront()
 
 	// Loading the public transportation datas
-	d3.csv("data/pts_buff.csv",function(data){
+	d3.csv("data/buffers.csv",function(data){
 		console.log(data);
 		ptStops = data.map(function(d){
 			d.latLng = [+d.Y,+d.X];
@@ -229,11 +227,11 @@ O.sliderevent = function(){
 
 O.initGraph = function(){
 		// Creating margins for the svg
-	  margin = {top : 40, right : 60, bottom : 48, left : 70};
+	  margin = {top : 40, right : 60, bottom : 48, left : 75};
 
 	  // Setting dimensions of the svg and padding between each value of the barplot
 	  wGraph = $('#graphPart').width() - margin.left - margin.right;
-	  hGraph = 380 - margin.top - margin.bottom;
+	  hGraph = 400 - margin.top - margin.bottom;
 
 	  // Creating svg, appending attributes
 	  svgGraph = d3.select("#graph")
@@ -273,14 +271,14 @@ O.initGraph = function(){
 		svgGraph.append("text")
 						.attr('class', 'axisLabel')
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (-60) +","+(hGraph/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+            .attr("transform", "translate("+ (-65) +","+(hGraph/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
 						.style('opacity', 0)
 						.text("Population");
 
     svgGraph.append("text")
 						.attr('class', 'axisLabel')
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate("+ (wGraph/2) +","+(hGraph-(-40))+")")  // centre below axis
+            .attr("transform", "translate("+ (wGraph/2) +","+(hGraph-(-45))+")")  // centre below axis
             .style('opacity', 0)
 						.text("Zone tampon en mètres");
 
@@ -292,10 +290,15 @@ O.initGraph = function(){
 	O.updateGraph = function(data) {
 		// Transforming data
 		dataGraph = [];
-		dataGraph.push({"size": 100, "pop": +data.buff100_SU});
-		dataGraph.push({"size": 250, "pop": +data.buff250_SU});
-		dataGraph.push({"size": 500, "pop": +data.buff500_SU});
-		dataGraph.push({"size": 1000, "pop": +data.buff1000_S});
+		for(i = 1; i <= 10; i++){
+			string = `pop${i*100}m`;
+			dataGraph.push({"size": i*100, "pop": +data[string]});
+		}
+
+		// Replacing all falsey values (espacially NaN) with 0
+		dataGraph.forEach(function(a){
+			a.pop = a.pop || 0;
+		})
 
 		// Setting up X
 		xScale = d3.scale.linear().range([0,wGraph]).domain([0,1000]);
@@ -375,7 +378,6 @@ O.initGraph = function(){
 				tooltipGraph.transition()
 										.duration(200)
 										.style('opacity', 0);
-
 			});
 
 			// Replace part of the labels
