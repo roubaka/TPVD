@@ -30,7 +30,7 @@ O.main = function(){
 
 O.initMap = function(){
 	// Initiaize the map
-	map = new L.map("map", {center: [46.52, 6.60], zoom: 14, minZoom: 10, maxZoom: 15, maxBounds: ([[46.128688, 5.971754],[47.121474, 7.313116]])});
+	map = new L.map("map", {center: [46.515228504114376, 6.629819869995117], zoom: 14, minZoom: 10, maxZoom: 15, maxBounds: ([[46.128688, 5.971754],[47.121474, 7.313116]])});
 	let cartodb = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
 	});
@@ -191,11 +191,12 @@ O.makePtStops = function(){
 			})
 			.on('click', function(d){
 				$('#graphLegend').html(function(){
-					return `<tr id="arret"> <td> ${d.NOM} </td> </tr>
-									<tr>
-										<td> Commune : ${d.NOM_COMMUN} </td>
-										<td> Altitude : ${d.ALTITUDE} </td>
-									</tr>`;
+					return `<table width="100%">
+										<tr id="arret"> <td> </td> <td>  ${d.NOM} </td> <td> </td> </tr>
+									</table>
+									<table width="100%">
+										<tr> <td> Commune : ${d.NOM_COMMUN} </td> <td> &nbsp; </td> <td> Altitude : ${d.ALTITUDE} </td> </tr>
+									</table>`;
 				})
 				if(graphInitialized){
 					O.updateGraph(d);
