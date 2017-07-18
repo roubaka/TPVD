@@ -6,6 +6,8 @@
 ## Description
 **TPVD** (pour *Transports Publics Vaud*) est une application de cartographie interactive qui permet de visualiser dynamiquement la desserte des arrêts de transport publics dans le canton de Vaud (Suisse).
 
+![Alt Text](img/Screen_whole.png)
+
 ### Principe
 ##### Des zones tampons selon 3 catégories
 **TPVD** permet de visualiser la population potentiellement desservie par l'ensemble des arrêts de transport du canton de Vaud selon différents scénarios : pour chaque arrêt, il est possible d'afficher une zone tampon (correspondant à l'aire de desserte de chaque arrêt) en fonction d'un rayon défini par l'utilisateur. Partant de l'hypothèse selon laquelle *l'attractivité des arrêts est proportionnelle aux opportunités de déplacement qu'ils offrent*, les arrêts sont séparés selon trois catégories (trajets de courte, moyenne et longue distance).
@@ -42,6 +44,8 @@ La carte est composée de 3 éléments:
 - Une *heatmap* représentant la densité de population. Elle donne une indication globale sur la densité de population pour permettre de distinguer les zones densément peuplées
 - Les arrrêts de transport publics sous forme de points. Ils sont divisés en trois catégories permettent d'apprécier leur répartition selon différentes zones tampons circulaires.
 
+![Alt text](img/Screen_map.png)
+
 Il est possible de naviguer sur cette carte (*panning*) et de changer le niveau de zoom en fonction du niveau de déatil voulu par l'utilisateur. L'emprise de la carte est restreinte au périmètre du canton de Vaud.
 
 ### *Sliders* et graphique
@@ -52,12 +56,17 @@ Les paramètres initiaux sont.
 
 - 100m pour les bus
 - 200m pour le métro
-- 500m pour le train 
+- 500m pour le train
+
+![Alt text](img/Screen_slider.png) 
 
 Lorsque l'on place le curseur sur un arrêt de transport, la taille du cercle  augmente en fonction de la taille de la zone tampon choisie. Une indication sur le nom de l'arrêt et de la population habitant à l'intérieur de la zone prédéfinie va s'afficher.
 
+![Alt text](img/Screen_buffer.png)
+
 Si l'utilisateur clique sur un arrêt de transport, un graphique va apparaître dans la section en bas à droite de page et va indiquer l'évolution de la population en fonction de la zone tampon choisie tout en indiquant le nombre d'habitants que l'arrêt de transport dessert.
 
+![Alt text](img/Screen_graph.png)
 
 ## Ressources
 
