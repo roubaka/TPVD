@@ -1,5 +1,5 @@
 # TPVD
-*TPVD v 1.0* disponible en ligne [ici] (https://roubaka.github.io/) 
+*TPVD v 1.0* disponible en ligne [ici](https://roubaka.github.io/) 
 
   Projet effectué dans le cadre du cours : *Visualisation de données* de Isaac Pante (Faculté des Lettres, Université de Lausanne, SP2017) par Lucas Martinez et Nicolas Vallotton
 
@@ -62,10 +62,9 @@ Si l'utilisateur clique sur un arrêt de transport, un graphique va apparaître 
 ## Ressources
 
 #### Données
-Les données de la population proviennent du "nouveau recensement, population, ménages privés: géodonnées" sont disponibles en ligne sur [le site de l'office fédéral de la statisqtiques (OFS)] (https://www.bfs.admin.ch/bfs/fr/home/actualites/quoi-de-neuf.assetdetail.1442443.html)
+Les données de la population proviennent du *"nouveau recensement, population, ménages privés: géodonnées"* sont disponibles en ligne sur [le site de l'office fédéral de la statisqtiques (OFS)](https://www.bfs.admin.ch/bfs/fr/home/actualites/quoi-de-neuf.assetdetail.1442443.html)
 
-Les données concernant les arrêts de transport publics proviennent des géodonnées de l'Office fédéral des transports (OFT) disponibles en ligne :
-https://www.bav.admin.ch/bav/fr/home/themes/liste-alphabetique-des-sujets/geoinformation/geodonnees-de-base/arrets-des-transports-publics.html
+Les données concernant les arrêts de transport publics proviennent des géodonnées de l'Office fédéral des transports (OFT) [disponibles en ligne](https://www.bav.admin.ch/bav/fr/home/themes/liste-alphabetique-des-sujets/geoinformation/geodonnees-de-base/arrets-des-transports-publics.html)
 
 #### Traitement
 
@@ -100,7 +99,7 @@ Ce programme est un logiciel gratuit.
 - D3 3.5.17
 - D3SvgOverlay
 
-Le fond de carte utilisé provient de [cartoDB] (https://cartodb-basemaps)
+Le fond de carte utilisé provient de [cartoDB](https://cartodb-basemaps)
 
 Certaines libraries et données utilisées pour le développement sont parfois soumis à un copyright par leurs auteurs respectifs.
 
