@@ -270,7 +270,7 @@ APP.sliderevent = function(){
 }
 
 /*****
-
+Initializing graphic - creating all svg elements (dots, axis)
 *****/
 APP.initGraph = function(data){
     // Removing introduction text for graph
@@ -291,6 +291,7 @@ APP.initGraph = function(data){
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Adding div tooltip
     tooltipGraph = d3.select('#graph')
     .append('div')
     .attr('class', 'tooltipGraph')
@@ -298,19 +299,20 @@ APP.initGraph = function(data){
     .style('top', '0px')
     .style('opacity',0);
 
+    // Adding dots with radius 0px
     svgGraph.selectAll('.point')
     .data(dataGraph)
     .enter()
     .append('circle')
     .attr('class','point')
     .attr('cx', function(d){
-        // return xScale(d.size);
         return 0;
     })
     .attr('cy', hGraph)
     .attr('r',0)
     .style('fill', 'white');
 
+    // Adding axis
     svgGraph.append('g')
     .attr('class','xAxis')
     .attr('transform', `translate(0,${hGraph})`);
@@ -318,6 +320,7 @@ APP.initGraph = function(data){
     svgGraph.append('g')
     .attr('class', 'yAxis');
 
+    // Adding axis labels
     svgGraph.append("text")
     .attr('class', 'axisLabel')
     .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
@@ -332,14 +335,17 @@ APP.initGraph = function(data){
     .style('opacity', 0)
     .text("Zone tampon en mètres");
 
+    // Adding line
     svgGraph.append('path')
     .attr('class','line')
     .style('stroke','none');
+
+    // Calling method to update graph according to current data
     APP.updateGraph(data);
 }
 
 /*****
-
+Updating graph - put all dots in place according to new data, rescale axis and and translate line
 *****/
 APP.updateGraph = function(data) {
 
@@ -366,6 +372,7 @@ APP.updateGraph = function(data) {
     yScale = d3.scale.linear().range([hGraph,0]).domain([yMin,yMax]);
     yAxis = d3.svg.axis().scale(yScale).orient('left');
 
+    // Declare new svg line with new coordinates
     let line = d3.svg.line()
     .x(function(d){
         return xScale(d.size);
@@ -374,13 +381,13 @@ APP.updateGraph = function(data) {
         return yScale(d.pop);
     });
 
+    // Rescale axis
     svgGraph.select('.xAxis')
     .transition()
     .duration(1000)
     .call(xAxis)
     .attr('x', wGraph)
     .attr('y', -3);;
-
 
     svgGraph.select('.yAxis')
     .transition()
@@ -392,14 +399,7 @@ APP.updateGraph = function(data) {
     svgGraph.selectAll('.axisLabel')
     .style('opacity', 1);
 
-    svgGraph.select('.line')
-    .transition()
-    .duration(1000)
-    .attr('d',line(dataGraph))
-    .style('stroke','black')
-    .style('stroke-width',0.7)
-    .style('fill','none');
-
+    // Remap all dots according to new values
     svgGraph.selectAll('.point')
     .data(dataGraph)
     .transition()
@@ -414,10 +414,21 @@ APP.updateGraph = function(data) {
     .style('opacity', 0.7)
     .style('fill','red');
 
+    // Translate line according to new coordinates
+    svgGraph.select('.line')
+    .transition()
+    .duration(1000)
+    .attr('d',line(dataGraph))
+    .style('stroke','black')
+    .style('stroke-width',0.7)
+    .style('fill','none');
+
+    // Interaction events on graphic
     svgGraph.selectAll('.point')
+    // Adding information on specific point to the tooltip on mouseover
     .on('mouseover', function(d){
-        let cx = d3.select(this).attr('cx');
-        let cy = d3.select(this).attr('cy');
+        let cx = d3.select(this).attr('cx'); // To get appropriate coordinates for tooltip
+        let cy = d3.select(this).attr('cy'); // To get appropriate coordinates for tooltip
         tooltipGraph.html(function(){
             return `${d.pop} habitants desservis <br> pour ${d.size}m`;
         })
@@ -427,13 +438,14 @@ APP.updateGraph = function(data) {
         .duration(100)
         .style('opacity', 0.8);
     })
+    // Remove tooltip on mouseout
     .on('mouseout', function(d){
         tooltipGraph.transition()
         .duration(200)
         .style('opacity', 0);
     });
 
-    // Replace part of the labels
+    // Replace part of the labels for french format
     $('text').each(function(){
         let legendText = $(this).text().replace(',',"'");
         $(this).text(legendText);
