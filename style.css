@@ -1,52 +1,48 @@
 #map {
-  width: 100%;
-  height: 600px;
+    width: 100%;
+    height: 600px;
 }
 
 body{
-  padding-top: 65px;
+    padding-top: 65px;
 }
 
 div.tooltip {
-  position: absolute;
-  background-color: #424242;
-  color: white;
-  text-align: center;
-  padding: 8px;
-  margin-top: -50px;
+    position: absolute;
+    background-color: #424242;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    margin-top: -50px;
 }
 
 div.tooltipGraph {
-  font-size: 12px;
-  position: absolute;
-  background-color: #424242;
-  color: white;
-  text-align: center;
-  padding: 8px;
-  margin-top: 90px;
-  margin-left: 80px;
+    font-size: 12px;
+    position: absolute;
+    background-color: #424242;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    margin-top: 90px;
+    margin-left: 80px;
 }
 
 
 td {
-  text-align: center;
+    text-align: center;
 }
 
-/*#graphLegend {
-  width: 100%;
-}*/
-
 #tuto{
-  text-align: right;
-  font-style: italic;
+    text-align: right;
+    font-style: italic;
 }
 
 #arret{
-  font-weight: bold;
+    font-weight: bold;
 }
 
 #slideLabel{
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .bottom {
@@ -56,10 +52,10 @@ td {
 
 .axis path,
 .domain {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-  stroke-width: 1px;
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    stroke-width: 1px;
 }
 
 .legend {
@@ -76,6 +72,6 @@ td {
     border-radius: 5px;
 }
 /*.info h4 {
-    margin: 0 0 5px;
-    color: #777;
+margin: 0 0 5px;
+color: #777;
 }*/
