@@ -12,11 +12,11 @@
 ##### Des zones tampons selon 3 catégories
 **TPVD** permet de visualiser la population potentiellement desservie par l'ensemble des arrêts de transport du canton de Vaud selon différents scénarios : pour chaque arrêt, il est possible d'afficher une zone tampon (correspondant à l'aire de desserte de chaque arrêt) en fonction d'un rayon défini par l'utilisateur. Partant de l'hypothèse selon laquelle *l'attractivité des arrêts est proportionnelle aux opportunités de déplacement qu'ils offrent*, les arrêts sont séparés selon trois catégories (trajets de courte, moyenne et longue distance).
 
-- La catégorie *train* est considérée comme offrant les trajets de longue distance. Elle comporte donc toutes gares ferroviaires.
-- La catégorie *métro* offre une desserte de distance moyenne. Elle comporte tous les arrêts de métro, bateau ou encore de funiculaire.
-- La catégorie *bus* offre une desserte de courte distance. Elle comporte tous les arrêts de bus.
+- La catégorie **train** est considérée comme offrant les trajets de longue distance. Elle comporte donc toutes gares ferroviaires.
+- La catégorie **métro** offre une desserte de distance moyenne. Elle comporte tous les arrêts de métro, bateau ou encore de funiculaire.
+- La catégorie **bus** offre une desserte de courte distance. Elle comporte tous les arrêts de bus.
 
-*NB:* certains arrêts sont desservis par deux catégories différentes. Dans ce cas, l'arrêt est classifié dans la catégorie de desserte supérieure (*p. ex:* un arrêt comportant *train et bus* sera catégorisé comme *train*).
+*NB:* certains arrêts sont desservis par deux catégories différentes. Dans ce cas, l'arrêt est classifié dans la catégorie de desserte supérieure (*p. ex:* un arrêt comportant **train et bus** sera catégorisé comme **train**).
 
 Les valeurs sont calculées dans le cas d'un espace uniforme ne considérant aucune contrainte physique. Il s'agit donc uniquement de considérer la population desservie pour un rayon donné *à vol d'oiseau*. 
 
@@ -50,7 +50,7 @@ Il est possible de naviguer sur cette carte (*panning*) et de changer le niveau 
 
 ### *Sliders* et graphique
 
-Trois *sliders* permettent de faire varier la taille des zones tampons autour des arrêts de transport pour chacune des trois catégories. Les valeurs peuvent varier entre 100 et 1000m par incréments de 100m.
+Trois *sliders* permettent de faire varier la taille des zones tampons autour des arrêts de transport pour chacune des trois catégories. Les valeurs peuvent varier entre 100m et 1000m par incréments de 100m.
 
 Les paramètres initiaux sont.
 
