@@ -12,6 +12,8 @@ let gradient = ['red', 'yellow', 'lime', 'cyan', 'blue'];
 // Dictionnary of buffer size and values linked to slider
 let bufferVal = [];
 
+let graphInitialized = false;
+
 for(i = 1; i <= 10; i++){
 	bufferVal.push({"sliderVal": i, "buffer": `${i*100}m`, "bufferPx": i*15, "pop":`pop${i*100}m`});
 }
@@ -24,7 +26,6 @@ let tooltipMap;
 O.main = function(){
 	O.initMap();
 	O.sliderevent();
-	O.initGraph();
 };
 
 O.initMap = function(){
@@ -196,7 +197,12 @@ O.makePtStops = function(){
 										<td> Altitude : ${d.ALTITUDE} </td>
 									</tr>`;
 				})
-				O.updateGraph(d);
+				if(graphInitialized){
+					O.updateGraph(d);
+				} else {
+					graphInitialized = true;
+					O.initGraph(d);
+				}
 			})
 			.on('mouseout', function(){
 				d3.select(this)
@@ -224,7 +230,8 @@ O.sliderevent = function(){
 	});
 }
 
-O.initGraph = function(){
+O.initGraph = function(data){
+		$('#tuto').remove();
 		// Creating margins for the svg
 	  margin = {top : 40, right : 40, bottom : 55, left : 52};
 
@@ -284,11 +291,11 @@ O.initGraph = function(){
 		svgGraph.append('path')
 						.attr('class','line')
 						.style('stroke','none');
+		O.updateGraph(data);
 	}
 
 	O.updateGraph = function(data) {
 
-		$('#tuto').remove();
 		// Transforming data
 		dataGraph = [];
 		for(i = 1; i <= 10; i++){
