@@ -64,7 +64,7 @@ Lorsque l'on place le curseur sur un arrêt de transport, la taille du cercle  a
 
 ![Alt text](img/Screen_buffer.png)
 
-Si l'utilisateur clique sur un arrêt de transport, un graphique va apparaître dans la section en bas à droite de page et va indiquer l'évolution de la population en fonction de la zone tampon choisie tout en indiquant le nombre d'habitants que l'arrêt de transport dessert.
+Si l'utilisateur clique sur un arrêt de transport, un graphique va apparaître dans la section en bas à droite de page. Ce graphique affiche l'évolution de la population en pour les différents rayons de zone tampons considérés. Lorsque le curseur est placé sur l'un des points, la valeur exacte de population desservie est affichée.
 
 ![Alt text](img/Screen_graph.png)
 
