@@ -1,5 +1,5 @@
 # TPVD
-*TPVD v 1.0* disponible en ligne [ici](https://roubaka.github.io/) 
+*TPVD v 1.0* disponible en ligne [ici](https://roubaka.github.io/)
 
   Projet effectué dans le cadre du cours : *Visualisation de données* de Isaac Pante (Faculté des Lettres, Université de Lausanne, SP2017) par Lucas Martinez et Nicolas Vallotton
 
@@ -18,7 +18,7 @@
 
 *NB:* certains arrêts sont desservis par deux catégories différentes. Dans ce cas, l'arrêt est classifié dans la catégorie de desserte supérieure (*p. ex:* un arrêt comportant **train et bus** sera catégorisé comme **train**).
 
-Les valeurs sont calculées dans le cas d'un espace uniforme ne considérant aucune contrainte physique. Il s'agit donc uniquement de considérer la population desservie pour un rayon donné *à vol d'oiseau*. 
+Les valeurs sont calculées dans le cas d'un espace uniforme ne considérant aucune contrainte physique. Il s'agit donc uniquement de considérer la population desservie pour un rayon donné *à vol d'oiseau*.
 
 ##### Un complément d'information visuelle
 La population est cartographiée de manière synthétique à l'aide d'une *heatmap* (ou carte de chaleur). Cette dernière permet de distinguer les zones urbaines denses des zones moins peuplées. Pour une analyse plus fine d'un arrêt de transport, **TPVD** offre également une visualisation sous forme de graphique indiquant la population desservie en fonction des différents rayons de la zone tampon autour cet arrêt. Cette fontionnalité permet d'analyser de manière succincte l'évolution de la population desservie selon le scénario considéré.
@@ -38,7 +38,7 @@ L'application TPVD est découpée en deux grandes parties
 
 ### Carte
 
-La carte est composée de 3 éléments: 
+La carte est composée de 3 éléments:
 
 - Un fond de carte "light" *openstreetmap* qui permet de se répérer géographiquement sur la carte
 - Une *heatmap* représentant la densité de population. Elle donne une indication globale sur la densité de population pour permettre de distinguer les zones densément peuplées
@@ -46,7 +46,7 @@ La carte est composée de 3 éléments:
 
 ![Alt text](img/Screen_map.png)
 
-Il est possible de naviguer sur cette carte (*panning*) et de changer le niveau de zoom en fonction du niveau de déatil voulu par l'utilisateur. L'emprise de la carte est restreinte au périmètre du canton de Vaud.
+Il est possible de naviguer sur cette carte (*panning*) et de changer le niveau de zoom en fonction du niveau de détail voulu par l'utilisateur. L'emprise de la carte est restreinte au périmètre du canton de Vaud.
 
 ### *Sliders* et graphique
 
@@ -58,13 +58,13 @@ Les paramètres initiaux sont.
 - 200m pour le métro
 - 500m pour le train
 
-![Alt text](img/Screen_slider.png) 
+![Alt text](img/Screen_slider.png)
 
 Lorsque l'on place le curseur sur un arrêt de transport, la taille du cercle  augmente en fonction de la taille de la zone tampon choisie. Une indication sur le nom de l'arrêt et de la population habitant à l'intérieur de la zone prédéfinie va s'afficher.
 
 ![Alt text](img/Screen_buffer.png)
 
-Si l'utilisateur clique sur un arrêt de transport, un graphique va apparaître dans la section en bas à droite de page. Ce graphique affiche l'évolution de la population en pour les différents rayons de zone tampons considérés. Lorsque le curseur est placé sur l'un des points, la valeur exacte de population desservie est affichée.
+Si l'utilisateur clique sur un arrêt de transport, un graphique va apparaître dans la section en bas à droite de page. Ce graphique affiche l'évolution de la population pour les différents rayons de zone tampons considérés. Lorsque le curseur est placé sur l'un des points, la valeur exacte de population desservie est affichée.
 
 ![Alt text](img/Screen_graph.png)
 
